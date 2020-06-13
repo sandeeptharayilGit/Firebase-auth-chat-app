@@ -1,15 +1,18 @@
 import { auth } from "../services/firebase";
 
 export function signup(email, password) {
+  auth().useDeviceLanguage();
   return auth().createUserWithEmailAndPassword(email, password);
 }
 
 export function signin(email, password) {
+  auth().useDeviceLanguage();
   return auth().signInWithEmailAndPassword(email, password);
 }
 
 export function signInWithGoogle() {
   const provider = new auth.GoogleAuthProvider();
+  auth().useDeviceLanguage();
   return auth().signInWithPopup(provider);
 }
 

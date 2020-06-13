@@ -52,7 +52,8 @@ export default class Chat extends Component {
       await db.ref("chats").push({
         content: this.state.content,
         timestamp: Date.now(),
-        uid: this.state.user.uid
+        uid: this.state.user.uid,
+        name: this.state.user.displayName || this.state.user.email
       });
       this.setState({ content: '' });
       chatArea.scrollBy(0, chatArea.scrollHeight);
@@ -79,7 +80,11 @@ export default class Chat extends Component {
           </div> : ""}
           {/* chat area */}
           {this.state.chats.map(chat => {
-            return <p key={chat.timestamp} className={"chat-bubble " + (this.state.user.uid === chat.uid ? "current-user" : "")}>
+            const currentUser=this.state.user.uid === chat.uid;
+            console.log(this.state.user)
+            return <p key={chat.timestamp} className={"chat-bubble " + (currentUser ? "current-user" : "")}>
+              {!currentUser && chat.name}
+              <br/>
               {chat.content}
               <br />
               <span className="chat-time float-right">{this.formatTime(chat.timestamp)}</span>
